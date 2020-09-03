@@ -1,0 +1,35 @@
+body {
+    padding: 10px;
+    background-color: yellow;
+}
+
+.main-content {
+    margin-left: 5vw;
+    margin-right: 5vw;
+    min-width: 500px;
+    width: 90vw;
+}
+
+.listing-form {
+    min-width: 500px;
+    width: 50vw;
+}
+
+.listing-page {
+    display: flex;
+    flex-direction: row;
+}
+
+.listings-list {
+    display: flex;
+    flex-direction: row;
+    height: 200px;
+    align-items: center;
+}
+
+.auctions-won {
+    display: flex;
+    flex-direction: row;
+    height: 100px;
+    align-items: center;
+}

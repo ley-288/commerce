@@ -1,0 +1,221 @@
+{% load static %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'override.css' %}" />{% endblock %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+    </head>
+<style>
+    body {
+    padding-left: 40px;
+    float: left;
+    background-color: white;
+}
+
+.nav{
+    float: center;
+    padding: 8px;
+    margin-top: -42px;
+    margin-left: 200px;
+    background-color: white;
+    height: 50px;
+}
+
+.main-content {
+    margin-left: 0px;
+    min-width: 500px;
+    width: 90vw;
+}
+
+.listings-list {
+    display: flex;
+    flex-direction: row;
+    height: 200px;
+    align-items: center;
+    background-color: lavender;
+}
+
+.auctions-won {
+    display: flex;
+    flex-direction: row;
+    height: 100px;
+    align-items: center;
+}
+
+/*search bar and buttons*/
+.input_div
+{
+    display: flex;
+    border: 10px solid black;
+    z-index: 3;
+    height: 50px;
+    width: 800px;
+    margin-top: 10px;
+    border: 3px solid black;
+}
+
+.searchpad {
+    flex: 1;
+    display: flex;
+    padding-left: 5px;
+}
+
+.searchbar{
+    height:35px;
+    padding-top: 7px;
+    border:none;
+    width:500px;
+    font-size:18px;
+    outline: none;
+    margin-left: 10px;
+    word-wrap: break-word; 
+  }
+
+  .searchbar:focus-within{
+    box-shadow: 1px 1px 8px 1px transparent;
+    outline:none;
+  }
+
+  a{
+      color: black;
+  }
+
+  a:hover{
+      color:blue;
+  }
+
+</style>
+
+    <body>
+       
+        <div>
+            {% if user.is_authenticated %}
+                Signed in as <strong><a href="{% url 'watchlist' %}">{{ user.username }}</a></strong>.
+            {% else %}
+                Not signed in.
+            {% endif %}
+        </div>
+        <ul class="nav">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
+                </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my_listings' %}">My Listings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'auctions_won' %}">Auctions Won</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'new_listing' %}">List an Item</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </li>
+
+                
+                
+                <div class="input_div">
+                    <div class="searchpad">
+                    <form action=" https://www.google.com/search" method="GET"> 
+                        <input type="text" id ="name" name="q" class="searchbar" placeholder="Search for anything!">
+                    </form>
+                    </div>
+                </div>
+                <a href='https://www.ebay.co.uk'><img src="{% static 'images/ebay.png'%}" alt="ebay" style='height:80px; width:160px; margin-top: 0px; margin-left: 10px;'></a>
+
+                <li class="nav-item">
+                    {% block nav-item %}
+                    {% endblock %}
+                </li>
+                {% if listing.status %}
+                    {% if creator %}
+                        
+                        <form action="{% url 'my_listings' %}" method="post">
+                            {% csrf_token %}
+                            <button style="margin-top: 175px;" type="submit" class="btn btn-danger ml-2" name="close_listing" value="{{ listing.id }}">Close Listing</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+            {% endif %}
+           
+        </ul>
+
+
+        <ul class="nav" style="margin-left: 2px; font-size: 13px; margin-top: 70px; font-weight: bold; color:black;">
+            
+            <li class="nav-item">
+                <a class="nav-link" href="">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Saved</a>
+            </li>
+           
+                <li class="nav-item">
+                    <a class="nav-link" href="">Home & Garden</a>
+                </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="">Electronics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Fashion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Sports & Leisure</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Health & Beauty</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Toys</a>
+                </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="">Motors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Home Entertainment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Collectables</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Deals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Local</a>
+                </li>
+               
+                <li class="nav-item">
+              
+                </li> 
+        </ul>
+
+
+        <hr>
+        {% if message %}
+            <div class="alert alert-warning" role="alert" style="text-align: center;">{{ message }}</div>
+        {% endif %}
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>

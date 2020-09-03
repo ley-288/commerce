@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    
+    <h2>Categories</h2>
+    <br>
+
+
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'category_page' category.id %}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <div id="box1" style="background-color: rgb(253, 67, 67); height: 500px; width: 1360px; margin-top: -450px; margin-left: -10px;">
+
+    </div>
+
+{% endblock %}
